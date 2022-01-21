@@ -1,0 +1,4 @@
+set MODEL_PATH="C:\Users\廖延杰\AppData\Roaming\SpleeterGUI\pretrained_models"
+C:\Users\廖延杰\AppData\Roaming\SpleeterGUI\python\python.exe -W ignore -m spleeter separate -c "mp3" -o "F:\AppServ\www\SpleeterGui" -d 400 -p "C:\Users\廖延杰\AppData\Roaming\SpleeterGUI\config.json" "C:\Users\廖延杰\Downloads\Music\Midnight Call.m4a"
+
+spleeter separate -p spleeter:2stems -c "mp3" -o "F:\AppServ\www\SpleeterGui" "C:\Users\廖延杰\Downloads\Music\Midnight Call.m4a"

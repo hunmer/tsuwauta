@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta name="theme-color" content="#000000">
+    <meta name="msapplication-navbutton-color" content="#000000">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#000000">
+    <meta name="description" content="">
+    <meta name="author" content="neysummer2000">
+    <meta name="keywords" content="">
+    <link rel="icon" href="./favicon.ico">
+    <!-- <meta http-equiv="Pragma" content="no-cache"> -->
+    <!-- <meta http-equiv="Cache-Control" content="no-cache"> -->
+    <!-- <meta http-equiv="Expires" content="0"> -->
+    <!-- <meta http-equiv="Content-Security-Policy" content="block-all-mixed-content"> -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="full-screen" content="yes">
+    <meta name="browsermode" content="application">
+    <meta name="x5-fullscreen" content="true">
+    <meta name="x5-page-mode" content="app">
+    <link rel="shortcut icon" href="favicon.ico">
+    <meta name="Author" contect="liaoyanjie2000@gmail.com">
+    <title>tsuwauta</title>
+    <link rel="stylesheet" href="css/halfmoon.min.css">
+    <!-- <link rel="stylesheet" href="css/font-awesome.min.css"> -->
+    <link rel="stylesheet" href="css/bootstrap-icons.css">
+    <link rel="stylesheet" href="css/halfmoon-variables.min.css">
+    <link rel="stylesheet" href="css/animate.min.css">
+    <link href="css/index.css" rel="stylesheet" />
+</head>
+<body class="with-custom-webkit-scrollbars with-custom-css-scrollbars dark-mode" data-dm-shortcut-enabled="true" data-sidebar-shortcut-enabled="true" data-set-preferred-theme-onload="true">
+    <div class="modal modal-full" id="modal-custom" tabindex="-1" role="dialog" style="z-index: 99999;">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content modal-content-media w-500">
+                <a href="javascript: void(0);" class="close" role="button" aria-label="Close" onclick="halfmoon.toggleModal('modal-custom');$('.navbar-fixed-bottom').css('zIndex', 1);g_cache.closeCustom();g_cache.closeCustom = () => {}">
+                    <span aria-hidden="true">&times;</span>
+                </a>
+                <h5 class="modal-title text-center">Title</h5>
+                <div class="modal-html">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <audio id='tip' autoplay></audio>
+    <audio id='recoder' autoplay></audio>
+    <audio autoplay id='music' src=''></audio>
+    <!-- data-sidebar-hidden="hidden" -->
+    <div class="page-wrapper with-navbar with-sidebar with-navbar-fixed-bottom"  data-sidebar-type="full-height">
+
+        
+
+        <div class="sticky-alerts" style="z-index: 99999;"></div>
+        <nav class="navbar justify-content-between">
+            <div class="navbar-content">
+                <button class="btn" type="button" onclick="halfmoon.toggleSidebar()">
+                    <i class="bi bi-list"></i>
+                </button>
+            </div>
+            <a class="navbar-brand ml-10">
+            </a>
+            <div class="navbar-content">
+                <div class="custom-switch">
+                  <input type="checkbox" id="switch-server" value="" onchange="initWebsock(this.checked);event.preventDefault(true)">
+                  <label for="switch-server"></label>
+                </div>
+
+                <button class="btn mr-10" type="button" data-action="fullScreen"  data-toggle="tooltip" data-title="全画面表示"  data-placement="bottom" ><i class="bi bi-fullscreen"></i></button>
+                <button class="btn mr-10 btn-primary" type="button" data-action="darkMode" data-toggle="tooltip" data-title="テーマ"  data-placement="bottom" ><i class="bi bi-moon" ></i></button>
+                <img src="res/maki.jpg" class="user_icon mr-20" id="img_user">
+            </div>
+        </nav>
+        <div class="sidebar-overlay" onclick="halfmoon.toggleSidebar()"></div>
+        <div class="sidebar">
+        </div>
+        <div class="content-wrapper" style="overflow-y: hidden;">
+
+            <div class="ftb" id="gif_show">
+                <img class="user_icon" id="gif_user" style="position: absolute;right: 0;top: 0;">
+                <img id="gif_img">
+            </div>
+
+            <div class="ftb">
+               <div class="dropdown dropup with-arrow">
+                  <button class="btn btn-lg btn-rounded btn-danger" data-toggle="dropdown" type="button" id="dropdown_gift" aria-haspopup="true" aria-expanded="false"><i class="bi bi-gift-fill" aria-hidden="true"></i>
+                  </button>
+                  <div class="dropdown-menu dropdown-menu-right" style="min-width: 300px;" aria-labelledby="dropdown_gift">
+                  </div>
+                </div>
+            </div>
+
+            
+
+            <div class="row">
+                <div class="col-8" id="div_player">
+                    <div class="mt-10 mb-10 position-relative h-150">
+                        <img id='cover' src="res/maki.jpg" class="h-150" style="border-radius: 10px; margin-left: 60px; margin-right: 10px;">
+                        <span id="songName" style="position: absolute;margin-left: 30px;top: 20px;font-size: 2rem;"></span>
+                        <span id="artistName" class="text-muted" style="position: absolute;margin-left: 50px;top: 50px;font-size: 1.5rem;"></span>
+                        <span style="position: absolute;margin-left: 50px;top: 90px;font-size: 2rem;" class="_btns">
+                           <a  data-action="favorite" id='favorite' data-toggle="tooltip" data-title="お気入り"  data-placement="bottom" ><i class="bi bi-heart" ></i></a>
+                           <a data-action="download" data-toggle="tooltip" data-title="ダウンロード"  data-placement="bottom" ><i class="bi bi-download"></i></a>
+                            <a data-action="searchLyric" data-toggle="tooltip" data-title="歌詞検索"  data-placement="bottom" ><i class="bi bi-card-text"></i></a>
+                            <a data-action="copyInfo" data-toggle="tooltip" data-title="复制歌名"  data-placement="bottom" ><i class="bi bi-clipboard"></i></a>
+                        </span>
+                        <div style="position: absolute;bottom: 10px;right: 10px;">
+                            <div class="mb-10  w-150 text-center">
+                                <span data-toggle="tooltip" data-title="音量">サーバー</span>
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" style="width: 0%" id="volume"></div>
+                                </div>
+                            </div>
+                            <div class="mb-10  w-150 text-center hide" id="progress_subVolume_div">
+                                <span data-toggle="tooltip" data-title="音量">クライアント</span>
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" style="width: 0%" id="subVolume"></div>
+                                </div>
+                            </div>
+                            <div class=" mb-10 w-150 text-center" id="progress_key_div">
+                                <span >キー
+                                    <span data-toggle="tooltip" data-title="初期化"><i data-action="key_reset" class="bi bi-arrow-clockwise" ></i></span></span>
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" style="width: 0%" id="key"></div>
+                                </div>
+                            </div>
+                            <div class="w-full text-right">
+                              <a class="btn btn-square rounded-circle" data-action="switchColor" role="button" data-placement="bottom" data-toggle="tooltip" data-title="文字色"> <span class="font-size-20">C</span></a>
+                              <a class="btn btn-square rounded-circle" data-action="fontSize_add" role="button" data-placement="bottom" data-toggle="tooltip" data-title="文字サイズ"> <i class="bi bi-plus font-size-20"></i></a>
+                              <a class="btn btn-square rounded-circle" data-action="fontSize_reduce" role="button" data-placement="bottom" data-toggle="tooltip" data-title="文字サイズ"><i class="bi bi-dash font-size-20"></i></a>
+                              <a class="btn btn-square rounded-circle" data-action="sidebar_hide" role="button" data-placement="bottom" data-toggle="tooltip" data-title="表示"><i class="bi bi-arrow-bar-left font-size-20"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <ul style="list-style: none;" class="full-height">
+                        <!-- <li class="p-10">aaa</li> -->
+                    </ul>
+                    <a class="btn btn-rounded btn-success btn-lg shadow " data-action="replay" role="button" style=" display:  none;position: absolute; width: 150px;left: 10%; bottom: 10%;z-index: 1;">もう一度聞く</a>
+
+                    <a class="btn btn-square btn-success rounded-circle btn-lg shadow " data-action="scrollToLyric" role="button" style="display:  none; position: absolute;right: 10%; bottom: 10%;z-index: 1;"><i class="bi bi-arrow-down" aria-hidden="true" ></i></a>
+                </div>
+                <div class="col-4 p-10 " id='div_side'>
+                    <div class="btn-toolbar p-5 bg-light-lm bg-very-dark-dm rounded" role="toolbar">
+                        <div class="btn-group mx-auto" id='tabs_btns' role="group">
+                            <button class="btn w-100 btn-primary" type="button" data-action="show,query">リスト</button>
+                            <button class="btn w-100" type="button" data-action="show,search">検索</button>
+                            <button class="btn w-100" type="button" data-action="show,utaten">平仮名</button>
+                        </div>
+                    </div>
+                    <div id="div_search" class="div full-height hide">
+                        <div class="input-group ml-auto mx-auto w-full m-10">
+                            <input type="text" id='input_search' style="max-width: 80% !important;margin: 0 auto;" class="form-control" placeholder="search" value="lemon" onkeydown="if(event.keyCode==13) $('[data-action=search]')[0].click();">
+                            <div class="input-group-append">
+                                <button class="btn" type="button" data-toggle="tooltip" data-title="リンク解析"  data-placement="bottom"  onclick="g_player.parseUrl()"> <i class="bi bi-link" aria-hidden="true"></i></button>
+                            </div>
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="button" data-action="search"> <i class="bi bi-search" aria-hidden="true"></i></button>
+                            </div>
+                        </div>
+                        <h4 class="text-center hide">loading...</h4>
+                        <div class="collapse-group w-full"></div>
+                    </div>
+                    <div id="div_query" class="div full-height">
+                    </div>
+                    <div id="div_utaten" class="div full-height hide">
+                        <div class="input-group ml-auto m-10">
+                            <input type="text" id='input_utaten' class="form-control " style="max-width: 80% !important;margin: 0 auto;" placeholder="search" value="" onkeydown="if(event.keyCode==13) $('[data-action=searchUtaten]')[0].click();">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="button" data-action="searchUtaten"> <i class="bi bi-search" aria-hidden="true"></i></button>
+                            </div>
+                        </div>
+                        <div id="utaten_result">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <nav class="navbar navbar-fixed-bottom row">
+            <div class="col flex-center">
+                <span class="badge-group" role="group" data-action="recorder" data-toggle="tooltip" data-title="録音">
+                  <a class="badge badge-primary badge-pill" data-action="recorded_icon"><i class="bi bi-mic" aria-hidden="true"></i></a>
+                  <a class="badge badge-secondary badge-pill " style="color: black !important;" data-action="recorded_time">00:00</a>
+                </span>
+                <a class="btn btn-square btn-success rounded-circle btn-lg" data-action="play" role="button"><i class="bi bi-play" aria-hidden="true"></i></a>
+            </div>
+            <div class="progress col-8">
+                <div class="progress-bar progress-bar-animated" id="progress_music" role="progressbar" style="width: 0%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+            <div class="col text-center">
+                 <a class="btn btn-square rounded-circle" role="button" data-action="switchSign" data-toggle="tooltip" data-title="合唱"><i class="bi bi-people"></i></a>
+                <a class="btn btn-square rounded-circle" role="button" data-action="utaten" data-toggle="tooltip" data-title="ひらがな"><i class="bi bi-fonts"></i></a>
+                <a class="btn btn-square btn-primary rounded-circle" role="button" data-action="tlrc" data-toggle="tooltip" data-title="中国語"><i class="bi bi-translate"></i></a>
+                <a class="btn btn-square rounded-circle spleeter" role="button" data-action="spleeter,accompaniment" data-toggle="tooltip" data-title="伴奏"><i class="bi bi-music-note-beamed"></i></a>
+                <a class="btn btn-square rounded-circle spleeter" role="button" data-action="spleeter,vocals" data-toggle="tooltip" data-title="ボーカル"><i class="bi bi-mic-fill"></i></a>
+            </div>
+        </nav>
+    </div>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/until.js"></script>
+    <script src="js/halfmoon.min.js"></script>
+    <script src="js/halfmoon.until.js"></script>
+    <script src="js/lazyload.min.js"></script>
+    <script src="js/jquery.keyframes.min.js"></script>
+    <script src="js/background-blur.min.js"></script>
+    <script src="js/rgbaster.js"></script>
+    <script src="js/player.js"></script>
+    <script src="js/recorder.js"></script>
+    <script src="js/index.js"></script>
+
+
+</body>
+
+</html>
